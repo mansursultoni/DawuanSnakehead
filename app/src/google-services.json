@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "257361714993",
+    "project_id": "dawuansnakehead",
+    "storage_bucket": "dawuansnakehead.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257361714993:android:e4accc21c18a2245d79a10",
+        "android_client_info": {
+          "package_name": "com.sultoniapk.dawuansnakehead"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257361714993-1tmern28lv3u075es50os3f7evglpv1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAPWLB0KKzm9-67is9UgADz6tyNvdnj68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257361714993-1tmern28lv3u075es50os3f7evglpv1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
