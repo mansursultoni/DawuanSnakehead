@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DawuanSnakehead"
         tools:targetApi="31">
         <activity
+            android:name=".UserDashboard"
+            android:exported="false" />
+        <activity
             android:name=".DaftarActivity"
             android:exported="false" />
         <activity

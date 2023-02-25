@@ -3,22 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:background="@drawable/gradient_background_orange"
+    android:padding="10dp"
     tools:context=".DaftarActivity">
 
     <LinearLayout
         android:id="@+id/linear1"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnKembali"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:background="@drawable/shape_button01"
             android:fontFamily="sans-serif-condensed"
             android:text="Batal"
@@ -33,34 +32,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/linear1"
-        android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:layout_marginVertical="40dp"
+        android:layout_marginBottom="20dp"
         android:fontFamily="sans-serif-medium"
         android:text="DAFTAR"
-        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/ic_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_user"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/daftar"/>
+    //---KOLOM NAMA LENGKAP---
     <TextView
         android:id="@+id/keteranganNama"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ic_user"
-        android:layout_marginTop="5dp"
+        android:layout_below="@id/daftar"
         android:layout_centerHorizontal="true"
-        android:typeface="sans"
+        android:layout_marginTop="5dp"
         android:text="Isi nama Anda sebagai identitas"
-        android:textStyle="normal"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:typeface="sans" />
+
     <EditText
         android:id="@+id/txtNama"
         android:layout_width="300dp"
@@ -68,83 +62,74 @@
         android:layout_below="@+id/keteranganNama"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/rounded_border"
-        android:textColorHint="@color/black"
-        android:hint="Nama"
+        android:hint="Nama Lengkap"
         android:inputType="text"
         android:minHeight="48dp"
-        android:layout_marginBottom="20dp"
+        android:padding="16dp"
         android:textColor="@color/black"
-        android:padding="16dp"/>
-    //---------------
-    <ImageView
-        android:id="@+id/ic_phone"
+        android:textColorHint="@color/black" />
+
+    //---KOLOM USERNAME---
+    <TextView
+        android:id="@+id/keteranganUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_phone"
+        android:layout_below="@id/txtNama"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/txtNama"/>
+        android:layout_marginTop="5dp"
+        android:text="Isi nama Anda sebagai identitas"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:typeface="sans" />
+
+    <EditText
+        android:id="@+id/txtUsername"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/keteranganUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_border"
+        android:hint="Username"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
+
+    //---KOLOM TELEPON---
     <TextView
         android:id="@+id/keteranganponsel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ic_phone"
-        android:layout_marginTop="5dp"
+        android:layout_below="@id/txtUsername"
         android:layout_centerHorizontal="true"
-        android:typeface="sans"
+        android:layout_marginTop="5dp"
         android:text="Masukan nomor telepon untuk melanjutkan"
-        android:textStyle="normal"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:typeface="sans" />
+
     <EditText
         android:id="@+id/txtTelepon"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/keteranganponsel"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rounded_border"
-        android:textColorHint="@color/black"
-        android:hint="+62 "
-        android:inputType="text"
-        android:minHeight="48dp"
+        android:layout_marginTop="3dp"
         android:layout_marginBottom="20dp"
-        android:textColor="@color/black"
-        android:padding="16dp"/>
-    //----------------
-    <ImageView
-        android:id="@+id/ic_verified"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_verified"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/txtTelepon"/>
-    <TextView
-        android:id="@+id/keteranganverified"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ic_verified"
-        android:layout_marginTop="5dp"
-        android:layout_centerHorizontal="true"
-        android:typeface="sans"
-        android:text="Isi nomor verifikasi yang diterima "
-        android:textStyle="normal"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-    <EditText
-        android:id="@+id/txtVerified"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/keteranganverified"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
         android:background="@drawable/rounded_border"
-        android:textColorHint="@color/black"
-        android:inputType="text"
+        android:hint="Telepon"
+        android:inputType="phone"
         android:minHeight="48dp"
-        android:layout_marginBottom="20dp"
+        android:padding="16dp"
         android:textColor="@color/black"
-        android:padding="16dp"/>
+        android:textColorHint="@color/black" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDaftar"
