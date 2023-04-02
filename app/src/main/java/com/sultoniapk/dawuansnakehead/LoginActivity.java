@@ -45,7 +45,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!validateUsername() | !validateTelepon()){
+                    String username = EditUsername.getText().toString();
+                    String telepon  = EditTelepon.getText().toString();
 
+                    if(username.equals("admin") && (telepon.equals("15012001"))){
+                        Toast.makeText(LoginActivity.this, "Masuk sebagai Admin", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, AdminDashboard.class));
+                        finish();
+                    }
+                    else{}
                 }
                 else {
                     cekUser();
