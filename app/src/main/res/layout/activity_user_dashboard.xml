@@ -8,19 +8,18 @@
     android:background="@drawable/gradient_background_orange"
     android:gravity="center"
     tools:context=".UserDashboard">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kamu masuk sebagai"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/nomorTelepon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nomor Telepon"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogout"
@@ -32,5 +31,4 @@
         android:text="Logout"
         android:textColor="@color/black"
         android:textSize="18sp" />
-
 </LinearLayout>
