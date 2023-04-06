@@ -1,16 +1,16 @@
 package com.sultoniapk.dawuansnakehead;
 
 public class ClassProduk {
-    private String nama, telepon, sosmed, alamat, foto;
+    private String nama, nomor, harga, deskripsi, foto;
 
     public ClassProduk() {
     }
 
-    public ClassProduk(String nama, String telepon, String sosmed, String alamat, String foto) {
+    public ClassProduk(String nama, String nomor, String harga, String deskripsi, String foto) {
         this.nama = nama;
-        this.telepon = telepon;
-        this.sosmed = sosmed;
-        this.alamat = alamat;
+        this.nomor = nomor;
+        this.harga = harga;
+        this.deskripsi = deskripsi;
         this.foto = foto;
     }
 
@@ -22,28 +22,28 @@ public class ClassProduk {
         this.nama = nama;
     }
 
-    public String getTelepon() {
-        return telepon;
+    public String getNomor() {
+        return nomor;
     }
 
-    public void setTelepon(String telepon) {
-        this.telepon = telepon;
+    public void setNomor(String nomor) {
+        this.nomor = nomor;
     }
 
-    public String getSosmed() {
-        return sosmed;
+    public String getHarga() {
+        return harga;
     }
 
-    public void setSosmed(String sosmed) {
-        this.sosmed = sosmed;
+    public void setHarga(String harga) {
+        this.harga = harga;
     }
 
-    public String getAlamat() {
-        return alamat;
+    public String getDeskripsi() {
+        return deskripsi;
     }
 
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
     }
 
     public String getFoto() {

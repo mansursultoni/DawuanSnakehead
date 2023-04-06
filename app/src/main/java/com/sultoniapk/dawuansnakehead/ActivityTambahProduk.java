@@ -32,8 +32,8 @@ public class ActivityTambahProduk extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
-    ImageView FotoContact;
-    EditText TextNama, TextTelepon, TextSosmed, TextAlamat;
+    ImageView FotoProduk;
+    EditText TextNama, TextNomor, TextHarga, TextDeskripsi;
     Button TombolSimpan, TombolKembali;
     ProgressBar progressBar;
     private Uri filePath;
@@ -44,18 +44,18 @@ public class ActivityTambahProduk extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_produk);
-        FotoContact = findViewById(R.id.imageView);
-        TextNama = findViewById(R.id.editTextNama);
-        TextTelepon = findViewById(R.id.editTextTelepon);
-        TextSosmed = findViewById(R.id.editTextSosmed);
-        TextAlamat = findViewById(R.id.editTextAlamat);
-        TombolKembali = findViewById(R.id.buttonBack);
-        TombolSimpan = findViewById(R.id.buttonUpdate);
-        progressBar = findViewById(R.id.progressBar);
+        FotoProduk      = findViewById(R.id.imageView);
+        TextNama        = findViewById(R.id.editTextNama);
+        TextNomor       = findViewById(R.id.editTextNomor);
+        TextHarga       = findViewById(R.id.editTextHarga);
+        TextDeskripsi   = findViewById(R.id.editTextDeskripsi);
+        TombolKembali   = findViewById(R.id.buttonBack);
+        TombolSimpan    = findViewById(R.id.buttonUpdate);
+        progressBar     = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
-        FotoContact.setOnClickListener(new View.OnClickListener() {
+        firebaseFirestore   = FirebaseFirestore.getInstance();
+        storageReference    = FirebaseStorage.getInstance().getReference();
+        FotoProduk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ambilGambar();
@@ -75,14 +75,14 @@ public class ActivityTambahProduk extends AppCompatActivity {
         });
 
     }
-    private void SimpanData(String nama, String telepon, String sosmed, String alamat, String foto){
+    private void SimpanData(String nama, String nomor, String harga, String deskripsi, String foto){
         Map<String, Object> contactData = new HashMap<>();
         contactData.put("nama", nama);
-        contactData.put("telepon", telepon);
-        contactData.put("sosmed", sosmed);
-        contactData.put("alamat", alamat);
+        contactData.put("nomor", nomor);
+        contactData.put("harga", harga);
+        contactData.put("deskripsi", deskripsi);
         contactData.put("foto", foto);
-        firebaseFirestore.collection("Contacts").document(telepon).set(contactData).isSuccessful();
+        firebaseFirestore.collection("Produk").document(nomor).set(contactData).isSuccessful();
     }
     private void ambilGambar(){
         Intent intent = new Intent();
@@ -95,14 +95,14 @@ public class ActivityTambahProduk extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null ){
             filePath = data.getData();
-            Picasso.get().load(filePath).fit().centerInside().into(FotoContact);
+            Picasso.get().load(filePath).fit().centerInside().into(FotoProduk);
         }else{
             Toast.makeText(this, "Tidak ada gambar dipilih", Toast.LENGTH_SHORT).show();
         }
     }
     private void uploadImage(){
         if(filePath != null){
-            final StorageReference ref = storageReference.child(TextTelepon.getText().toString());
+            final StorageReference ref = storageReference.child(TextNomor.getText().toString());
             UploadTask uploadTask = ref.putFile(filePath);
             Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
@@ -115,9 +115,9 @@ public class ActivityTambahProduk extends AppCompatActivity {
                     Uri imagePath = task.getResult();
                     fotoUrl = imagePath.toString();
                     SimpanData(TextNama.getText().toString(),
-                            TextTelepon.getText().toString(),
-                            TextSosmed.getText().toString(),
-                            TextAlamat.getText().toString(),
+                            TextNomor.getText().toString(),
+                            TextHarga.getText().toString(),
+                            TextDeskripsi.getText().toString(),
                             fotoUrl);
                     progressBar.setProgress(0);
                     progressBar.setVisibility(View.INVISIBLE);

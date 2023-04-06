@@ -1,10 +1,6 @@
 package com.sultoniapk.dawuansnakehead;
 
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,9 +42,9 @@ public class AdminDashboard extends AppCompatActivity {
 
 //        getSupportActionBar().setHomeAsUpIndicator(ic_user);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        recyclerView = findViewById(R.id.recyclerView);
-        progressBar = findViewById(R.id.progressBar);
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        recyclerView        = findViewById(R.id.recyclerView);
+        progressBar         = findViewById(R.id.progressBar);
+        firebaseFirestore   = FirebaseFirestore.getInstance();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         getData();
@@ -61,31 +57,31 @@ public class AdminDashboard extends AppCompatActivity {
         });
     }
     private void getData() {
-        Query query = firebaseFirestore.collection("Contacts");
+        Query query = firebaseFirestore.collection("Produk");
         FirestoreRecyclerOptions<ClassProduk> response = new FirestoreRecyclerOptions.Builder<ClassProduk>()
                 .setQuery(query, ClassProduk.class).build();
-        adapter = new FirestoreRecyclerAdapter<ClassProduk, ContactsHolder>(response) {
+        adapter = new FirestoreRecyclerAdapter<ClassProduk, ProdukHolder>(response) {
             @NonNull
             @Override
-            public ContactsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public ProdukHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_produk, parent, false);
-                return new ContactsHolder(view);
+                return new ProdukHolder(view);
             }
             @Override
-            protected void onBindViewHolder(@NonNull ContactsHolder holder, int position, @NonNull final ClassProduk model) {
+            protected void onBindViewHolder(@NonNull ProdukHolder holder, int position, @NonNull final ClassProduk model) {
                 progressBar.setVisibility(View.GONE);
                 if( model.getFoto() != null) {
                     Picasso.get().load(model.getFoto()).fit().into(holder.fotoContact);
                 }else{
                     Picasso.get().load(ic_user).fit().into(holder.fotoContact);
                 }
-                holder.namaContact.setText(model.getNama());
-                holder.teleponContact.setText(model.getTelepon());
+                holder.namaProduk.setText(model.getNama());
+                holder.hargaProduk.setText(model.getHarga());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(AdminDashboard.this, ActivityDetailProduk.class);
-                        intent.putExtra("telepon", model.getTelepon());
+                        intent.putExtra("nomor", model.getNomor());
                         startActivity(intent);
 //Snackbar.make(recyclerView, model.getNama()+", " +model.getTelepon(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     }
@@ -99,16 +95,16 @@ public class AdminDashboard extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
     }
-    public class ContactsHolder extends RecyclerView.ViewHolder{
+    public class ProdukHolder extends RecyclerView.ViewHolder{
         ImageView fotoContact;
-        TextView namaContact;
-        TextView teleponContact;
+        TextView namaProduk;
+        TextView hargaProduk;
         ConstraintLayout constraintLayout;
-        public ContactsHolder(@NonNull View itemView) {
+        public ProdukHolder(@NonNull View itemView) {
             super(itemView);
             fotoContact = itemView.findViewById(R.id.imageViewFoto);
-            namaContact = itemView.findViewById(R.id.textViewNama);
-            teleponContact = itemView.findViewById(R.id.textViewTelepon);
+            namaProduk = itemView.findViewById(R.id.textViewNama);
+            hargaProduk = itemView.findViewById(R.id.textViewHarga);
 //            constraintLayout = itemView.findViewById(R.id.constraintLayout);
         }
     }

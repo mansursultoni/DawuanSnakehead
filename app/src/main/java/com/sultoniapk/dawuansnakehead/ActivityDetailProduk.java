@@ -36,33 +36,33 @@ public class ActivityDetailProduk extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
-    ImageView FotoContact;
-    EditText TextNama, TextTelepon, TextSosmed, TextAlamat;
+    ImageView FotoProduk;
+    EditText TextNama, TextNomor, TextHarga, TextDeskripsi;
     Button TombolEdit, TombolHapus, TombolKembali;
     ProgressBar progressBar;
     private Uri filePath;
-    private String fotoUrl, teleponId;
+    private String fotoUrl, produkId;
     private static final int IMAGE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_produk);
-        FotoContact = findViewById(R.id.imageView);
-        TextNama = findViewById(R.id.editTextNama);
-        TextTelepon = findViewById(R.id.editTextTelepon);
-        TextSosmed = findViewById(R.id.editTextSosmed);
-        TextAlamat = findViewById(R.id.editTextAlamat);
-        TombolHapus = findViewById(R.id.buttonDelete);
-        TombolEdit = findViewById(R.id.buttonUpdate);
-        TombolKembali = findViewById(R.id.buttonBack);
-        progressBar = findViewById(R.id.progressBar);
+        FotoProduk      = findViewById(R.id.imageView);
+        TextNama        = findViewById(R.id.editTextNama);
+        TextNomor       = findViewById(R.id.editTextNomor);
+        TextHarga       = findViewById(R.id.editTextHarga);
+        TextDeskripsi   = findViewById(R.id.editTextDeskripsi);
+        TombolHapus     = findViewById(R.id.buttonDelete);
+        TombolEdit      = findViewById(R.id.buttonUpdate);
+        TombolKembali   = findViewById(R.id.buttonBack);
+        progressBar     = findViewById(R.id.progressBar);
         progressBar.setVisibility(INVISIBLE);
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
-        teleponId = getIntent().getExtras().getString("telepon");
+        firebaseFirestore   = FirebaseFirestore.getInstance();
+        storageReference    = FirebaseStorage.getInstance().getReference();
+        produkId = getIntent().getExtras().getString("nomor");
         readData();
-        FotoContact.setOnClickListener(new View.OnClickListener() {
+        FotoProduk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ambilGambar();
@@ -88,21 +88,21 @@ public class ActivityDetailProduk extends AppCompatActivity {
         });
     }
     private void readData(){
-        firebaseFirestore.collection("Contacts").whereEqualTo("telepon", teleponId)
+        firebaseFirestore.collection("Produk").whereEqualTo("nomor", produkId)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot document : task.getResult()){
                                 TextNama.setText(document.getString("nama"));
-                                TextTelepon.setText(document.getString("telepon"));
-                                TextSosmed.setText(document.getString("sosmed"));
-                                TextAlamat.setText(document.getString("alamat"));
+                                TextNomor.setText(document.getString("nomor"));
+                                TextHarga.setText(document.getString("harga"));
+                                TextDeskripsi.setText(document.getString("deskripsi"));
                                 fotoUrl = document.getString("foto");
                                 if (fotoUrl != ""){
-                                    Picasso.get().load(fotoUrl).fit().into(FotoContact);
+                                    Picasso.get().load(fotoUrl).fit().into(FotoProduk);
                                 }else{
-                                    Picasso.get().load(R.drawable.ic_user).fit().into(FotoContact);
+                                    Picasso.get().load(R.drawable.ic_user).fit().into(FotoProduk);
                                 }
                             }
                         }else{
@@ -111,14 +111,14 @@ public class ActivityDetailProduk extends AppCompatActivity {
                     }
                 });
     }
-    private void SimpanData(String nama, String telepon, String sosmed, String alamat, String foto){
+    private void SimpanData(String nama, String nomor, String harga, String deskripsi, String foto){
         Map<String, Object> contactData = new HashMap<>();
         contactData.put("nama", nama);
-        contactData.put("telepon", telepon);
-        contactData.put("sosmed", sosmed);
-        contactData.put("alamat", alamat);
+        contactData.put("nomor", nomor);
+        contactData.put("harga", harga);
+        contactData.put("deskripsi", deskripsi);
         contactData.put("foto", foto);
-        firebaseFirestore.collection("Contacts").document(telepon).set(contactData).isSuccessful();
+        firebaseFirestore.collection("Produk").document(nomor).set(contactData).isSuccessful();
     }
     private void ambilGambar(){
         Intent intent = new Intent();
@@ -131,14 +131,14 @@ public class ActivityDetailProduk extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null ){
             filePath = data.getData();
-            Picasso.get().load(filePath).fit().into(FotoContact);
+            Picasso.get().load(filePath).fit().into(FotoProduk);
         }else{
             Toast.makeText(this, "Tidak ada gambar dipilih", Toast.LENGTH_SHORT).show();
         }
     }
     private void uploadImage(){
         if(filePath != null){
-            final StorageReference ref = storageReference.child(TextTelepon.getText().toString());
+            final StorageReference ref = storageReference.child(TextNomor.getText().toString());
             UploadTask uploadTask = ref.putFile(filePath);
             Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
                 return ref.getDownloadUrl();
@@ -148,9 +148,9 @@ public class ActivityDetailProduk extends AppCompatActivity {
                     Uri imagePath = task.getResult();
                     fotoUrl = imagePath.toString();
                     SimpanData(TextNama.getText().toString(),
-                            TextTelepon.getText().toString(),
-                            TextSosmed.getText().toString(),
-                            TextAlamat.getText().toString(),
+                            TextNomor.getText().toString(),
+                            TextHarga.getText().toString(),
+                            TextDeskripsi.getText().toString(),
                             fotoUrl);
                     progressBar.setProgress(0);
                     progressBar.setVisibility(INVISIBLE);
@@ -174,18 +174,18 @@ public class ActivityDetailProduk extends AppCompatActivity {
             });
         }else{
             SimpanData(TextNama.getText().toString(),
-                    TextTelepon.getText().toString(),
-                    TextSosmed.getText().toString(),
-                    TextAlamat.getText().toString(),
+                    TextNomor.getText().toString(),
+                    TextHarga.getText().toString(),
+                    TextDeskripsi.getText().toString(),
                     fotoUrl);
-            Toast.makeText(this, "Contact telah diubah", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Produk telah diubah", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
     private void hapusData(){
-        firebaseFirestore.collection("Contacts").document(teleponId).delete();
-        storageReference.child(teleponId).delete();
-        Toast.makeText(this, "Contact telah dihapus", Toast.LENGTH_SHORT).show();
+        firebaseFirestore.collection("Produk").document(produkId).delete();
+        storageReference.child(produkId).delete();
+        Toast.makeText(this, "Produk telah dihapus", Toast.LENGTH_SHORT).show();
         finish();
 
     }
