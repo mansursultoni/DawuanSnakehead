@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,7 +34,6 @@ public class AdminDashboard extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
     private FirestoreRecyclerAdapter adapter;
-    LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
     ProgressBar progressBar;
 
@@ -53,13 +53,15 @@ public class AdminDashboard extends AppCompatActivity {
 
 
         getData();
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        Button button = findViewById(R.id.buttonTambahProduk);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 startActivity(new Intent(AdminDashboard.this, ActivityTambahProduk.class));
             }
         });
+
     }
     private void getData() {
         Query query = firebaseFirestore.collection("Produk");

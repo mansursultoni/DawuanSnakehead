@@ -60,6 +60,7 @@ public class ActivityTambahProduk extends AppCompatActivity {
 
         progressBar     = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+
         firebaseFirestore   = FirebaseFirestore.getInstance();
         storageReference    = FirebaseStorage.getInstance().getReference();
         FotoProduk.setOnClickListener(new View.OnClickListener() {
