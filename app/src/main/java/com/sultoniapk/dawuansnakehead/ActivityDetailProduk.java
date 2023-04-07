@@ -5,8 +5,10 @@ import static android.view.View.VISIBLE;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,18 +50,22 @@ public class ActivityDetailProduk extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_produk);
-        FotoProduk      = findViewById(R.id.imageView);
-        TextNama        = findViewById(R.id.editTextNama);
-        TextNomor       = findViewById(R.id.editTextNomor);
-        TextHarga       = findViewById(R.id.editTextHarga);
-        TextDeskripsi   = findViewById(R.id.editTextDeskripsi);
-        TombolHapus     = findViewById(R.id.buttonDelete);
-        TombolEdit      = findViewById(R.id.buttonUpdate);
-        TombolKembali   = findViewById(R.id.buttonBack);
-        progressBar     = findViewById(R.id.progressBar);
+
+        FotoProduk = findViewById(R.id.imageView);
+
+        TextNama = findViewById(R.id.editTextNama);
+        TextNomor = findViewById(R.id.editTextNomor);
+        TextHarga = findViewById(R.id.editTextHarga);
+        TextDeskripsi = findViewById(R.id.editTextDeskripsi);
+
+        TombolHapus = findViewById(R.id.buttonDelete);
+        TombolEdit = findViewById(R.id.buttonUpdate);
+        TombolKembali = findViewById(R.id.buttonBack);
+
+        progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(INVISIBLE);
-        firebaseFirestore   = FirebaseFirestore.getInstance();
-        storageReference    = FirebaseStorage.getInstance().getReference();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
         produkId = getIntent().getExtras().getString("nomor");
         readData();
         FotoProduk.setOnClickListener(new View.OnClickListener() {
@@ -71,13 +77,44 @@ public class ActivityDetailProduk extends AppCompatActivity {
         TombolEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ActivityDetailProduk.this);
+                alertDialog.setTitle("Edit");
+                alertDialog.setMessage("Yakin mengedit data?");
+                alertDialog.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        uploadImage();
+                    }
+                });
+                alertDialog.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
             }
         });
         TombolHapus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hapusData();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ActivityDetailProduk.this);
+                alertDialog.setTitle("Hapus");
+                alertDialog.setMessage("Yakin menghapus data?");
+                alertDialog.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        hapusData();
+                    }
+                });
+                alertDialog.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+
             }
         });
         TombolKembali.setOnClickListener(new View.OnClickListener() {
@@ -87,31 +124,33 @@ public class ActivityDetailProduk extends AppCompatActivity {
             }
         });
     }
-    private void readData(){
+
+    private void readData() {
         firebaseFirestore.collection("Produk").whereEqualTo("nomor", produkId)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
                                 TextNama.setText(document.getString("nama"));
                                 TextNomor.setText(document.getString("nomor"));
                                 TextHarga.setText(document.getString("harga"));
                                 TextDeskripsi.setText(document.getString("deskripsi"));
                                 fotoUrl = document.getString("foto");
-                                if (fotoUrl != ""){
+                                if (fotoUrl != "") {
                                     Picasso.get().load(fotoUrl).fit().into(FotoProduk);
-                                }else{
+                                } else {
                                     Picasso.get().load(R.drawable.ic_user).fit().into(FotoProduk);
                                 }
                             }
-                        }else{
+                        } else {
                             Toast.makeText(ActivityDetailProduk.this, "Error getting documents", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-    private void SimpanData(String nama, String nomor, String harga, String deskripsi, String foto){
+
+    private void SimpanData(String nama, String nomor, String harga, String deskripsi, String foto) {
         Map<String, Object> contactData = new HashMap<>();
         contactData.put("nama", nama);
         contactData.put("nomor", nomor);
@@ -120,24 +159,27 @@ public class ActivityDetailProduk extends AppCompatActivity {
         contactData.put("foto", foto);
         firebaseFirestore.collection("Produk").document(nomor).set(contactData).isSuccessful();
     }
-    private void ambilGambar(){
+
+    private void ambilGambar() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"),IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"), IMAGE_REQUEST);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null ){
+        if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             Picasso.get().load(filePath).fit().into(FotoProduk);
-        }else{
+        } else {
             Toast.makeText(this, "Tidak ada gambar dipilih", Toast.LENGTH_SHORT).show();
         }
     }
-    private void uploadImage(){
-        if(filePath != null){
+
+    private void uploadImage() {
+        if (filePath != null) {
             final StorageReference ref = storageReference.child(TextNomor.getText().toString());
             UploadTask uploadTask = ref.putFile(filePath);
             Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
@@ -162,8 +204,8 @@ public class ActivityDetailProduk extends AppCompatActivity {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                     progressBar.setVisibility(VISIBLE);
-                    double progres = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                    progressBar.setProgress((int)progres);
+                    double progres = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressBar.setProgress((int) progres);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -172,7 +214,7 @@ public class ActivityDetailProduk extends AppCompatActivity {
                     Toast.makeText(ActivityDetailProduk.this, "Failed " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
-        }else{
+        } else {
             SimpanData(TextNama.getText().toString(),
                     TextNomor.getText().toString(),
                     TextHarga.getText().toString(),
@@ -182,7 +224,8 @@ public class ActivityDetailProduk extends AppCompatActivity {
             finish();
         }
     }
-    private void hapusData(){
+
+    private void hapusData() {
         firebaseFirestore.collection("Produk").document(produkId).delete();
         storageReference.child(produkId).delete();
         Toast.makeText(this, "Produk telah dihapus", Toast.LENGTH_SHORT).show();
