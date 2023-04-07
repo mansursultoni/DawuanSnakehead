@@ -51,8 +51,6 @@ public class AdminDashboard extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-//        linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-//        recyclerView.setLayoutManager(linearLayoutManager);
 
         getData();
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);

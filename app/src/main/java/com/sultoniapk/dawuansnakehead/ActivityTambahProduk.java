@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,13 +45,19 @@ public class ActivityTambahProduk extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_produk);
+
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.orange));
+
         FotoProduk      = findViewById(R.id.imageView);
+
         TextNama        = findViewById(R.id.editTextNama);
         TextNomor       = findViewById(R.id.editTextNomor);
         TextHarga       = findViewById(R.id.editTextHarga);
         TextDeskripsi   = findViewById(R.id.editTextDeskripsi);
         TombolKembali   = findViewById(R.id.buttonBack);
         TombolSimpan    = findViewById(R.id.buttonUpdate);
+
         progressBar     = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         firebaseFirestore   = FirebaseFirestore.getInstance();

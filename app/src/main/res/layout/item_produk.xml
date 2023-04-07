@@ -14,7 +14,7 @@
         android:id="@+id/imageViewFoto"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/ic_user"
+        android:src="@drawable/ic_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:text="Nama Produk"
+        android:maxLines="2"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="normal"
